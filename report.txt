@@ -1,0 +1,11 @@
+The problem can be generalised into calculating a Manhattan Distance from a chosen point (Pizza Shop) to other points on the map, with an addition of a distance condition - only points within a certain distance are marked.
+
+Complexity:
+
+The solution to the exercise is both spatially and computationally expensive.
+
+M - number of Pizza Shops
+N - side dimension of the city
+
+Computationally -> M x (N^2) -> O(N^2) (computing Manhatthan Distance for all possible points in the )
+Spatially - > M x (N^2) -> O(N^2)
