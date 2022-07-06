@@ -1,0 +1,4 @@
+python3 solution.py
+5 2
+3 3 2
+1 1 2
