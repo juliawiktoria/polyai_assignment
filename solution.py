@@ -1,6 +1,3 @@
-from multiprocessing.dummy import current_process
-from operator import xor
-
 
 def read_txt(filename):
     """
