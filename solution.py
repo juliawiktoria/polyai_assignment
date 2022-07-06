@@ -1,3 +1,5 @@
+import sys
+
 
 def read_txt(filename):
     """
@@ -105,9 +107,9 @@ def find_max_block(city_map):
 
 if __name__ == '__main__':
 
-    # getting the input in the program for now
-    n = int(input('what is the side of the map: '))
-    m = int(input('Number of the Pizza Shops to plug on the map: '))
+    # first line - city dimensions and number of pizza shops
+    first_line = [int(number) for number in input().split()]
+    n, m = first_line[0], first_line[1]
 
     # create the city map according to the given measurement
     city_map = [[0 for i in range(n)] for i in range(n)]
@@ -118,10 +120,10 @@ if __name__ == '__main__':
     pizza_shops = []
     # loop through the number of the needed Pizza Shops and get their coordinates
     for i in range(1, m+1):
-        pizza_details = input('> Input Pizza Shop #{} details <x y r>: '.format(i)).split(' ')
+        pizza_details = input().split(' ')
         x, y, r = int(pizza_details[0]), int(pizza_details[1]), int(pizza_details[2])
 
         plug_pizzeria_on_map(x, y, r, city_map)
 
-    max_pizza = find_max_block(city_map)
-    print(max_pizza)
+    # max_pizza = find_max_block(city_map)
+    # print(max_pizza)
