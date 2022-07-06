@@ -1,4 +1,33 @@
 from multiprocessing.dummy import current_process
+from operator import xor
+
+
+def read_txt(filename):
+    """
+    Parses the input.txt file and extracts relevant information into a usable format
+    """
+    
+    # load file content into a list
+    file_content = open(filename).read().split('\n')
+    
+    # get the first line (without the whitespace) - city dimensions and number of shops
+    firstline = file_content[0].split()
+    
+    # extract the city dimensions from the first line
+    blocks = int(firstline[0])
+
+    # extract the number of Pizza Shops from the first line
+    num_pizzerias = int(firstline[1])
+    
+    # extract details about every Pizza Shop
+    pizza_info = []
+    
+    for i in range(1, num_pizzerias + 1):
+        # make sure that the input is presented as an int and not as a str
+        line = [int(l) for l in file_content[i].split()]
+        pizza_info.append(line)
+      
+    return blocks, num_pizzerias, pizza_info  
 
 
 def print_map(arr):
@@ -48,6 +77,12 @@ def plug_pizzeria_on_map(pizza_x, pizza_y, pizza_r, city_map):
         city_map[new_x][new_y] += 1
     print_map(city_map)
 
+
+def manhattan_dist(x_origin, y_origin, x, y):
+    """
+    Calculated Manhattan Distance between two points; returns an int
+    """
+    return abs(x_origin - x) + abs(y_origin - y)
 
 def generate_deliverable_blocks(pizza_x, pizza_y, pizza_r, city_map):
     # [pizza_x, pizza_y] is the centre point
