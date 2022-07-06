@@ -1,4 +1,7 @@
 import numpy as np
+import sys
+
+
 
 def read_txt(filename):
     """
@@ -57,23 +60,25 @@ class PizzaBlock:
 
 
 if __name__ == '__main__':
+    for line in sys.stdin:
+        print(line)
 
-    # first line - city dimensions and number of pizza shops
-    first_line = [int(number) for number in input().split()]
-    n, m = first_line[0], first_line[1]
+    # # first line - city dimensions and number of pizza shops
+    # first_line = [int(number) for number in input().split()]
+    # n, m = first_line[0], first_line[1]
 
-    # initialise empty city map that will have multiple blocks added onto it
-    full_city_map = np.zeros((n, n))
+    # # initialise empty city map that will have multiple blocks added onto it
+    # full_city_map = np.zeros((n, n))
 
-    # loop through the number of the needed Pizza Shops and get their coordinates
-    for i in range(1, m+1):
-        pizza_details = input().split(' ')
-        x, y, r = int(pizza_details[0]), int(pizza_details[1]), int(pizza_details[2])
+    # # loop through the number of the needed Pizza Shops and get their coordinates
+    # for i in range(1, m+1):
+    #     pizza_details = input().split(' ')
+    #     x, y, r = int(pizza_details[0]), int(pizza_details[1]), int(pizza_details[2])
 
-        # create a new block with info from one Pizza Shop
-        new_pizza = PizzaBlock(n, x, y, r)
-        # add the new Pizza Shop Map onto the exisitng city map
-        full_city_map += new_pizza.create_map()
+    #     # create a new block with info from one Pizza Shop
+    #     new_pizza = PizzaBlock(n, x, y, r)
+    #     # add the new Pizza Shop Map onto the exisitng city map
+    #     full_city_map += new_pizza.create_map()
 
-    max_block = int(np.max(full_city_map))
-    print(max_block)
+    # max_block = int(np.max(full_city_map))
+    # print(max_block)

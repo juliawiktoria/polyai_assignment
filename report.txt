@@ -9,3 +9,5 @@ N - side dimension of the city
 
 Computationally -> M x (N^2) -> O(N^2) (computing Manhatthan Distance for all possible points in the )
 Spatially - > M x (N^2) -> O(N^2)
+
+python main.py < input.txt works in GitBash
