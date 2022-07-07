@@ -19,19 +19,22 @@ class PizzaBlock:
         self.grid = np.zeros((n, n))
 
     def fill_map(self):
-        # goes through every point on the map and marks it with '1' if its Manhattan Distance is withing the given r
-        for i in range(len(self.grid)):
-            for j in range(len(self.grid[0])):
-                if manhattan_dist(self.x, self.y, i, j) <= self.r:
-                    self.grid[i][j] = 1
+        # make sure that the pizzeria coordinates are within the city bounds
+        if self.x >=0 and self.x < n and self.y >= 0 and self.y < n:
+            # goes through every point on the map and marks it with '1' if its Manhattan Distance is withing the given r
+            for i in range(len(self.grid)):
+                for j in range(len(self.grid[0])):
+                    if manhattan_dist(self.x, self.y, i, j) <= self.r:
+                        self.grid[i][j] = 1
         
-        # flip the grid so the final coords are in line with the task coordinates ([1,1] in the bottom-left corner insted od the top-left one)
-        self.grid = np.flipud(self.grid)
+        # # rotate the array by 90 degrees to the right so that the Python coords are in line with the exercise coords
+        # self.grid = np.rot(self.grid)
+
         return self.grid
 
 
 if __name__ == '__main__':
-    
+
     # catch all lines of the stdin into an easy to manipulate array
     input_lines = []
     for line in sys.stdin:
@@ -44,16 +47,21 @@ if __name__ == '__main__':
     # initialise empty city map that will have multiple blocks added onto it
     full_city_map = np.zeros((n, n))
 
-    # loop through the number of the needed Pizza Shops and get their coordinates
-    # work on the initial input list; start indexing at 1 to avoid using extra space
-    for i in range(1, m+1):
-        pizza_details = input_lines[i].split(' ')
-        x, y, r = int(pizza_details[0]), int(pizza_details[1]), int(pizza_details[2])
+    # if there are no pizzerias
+    if m == 0:
+        pass
+    else:
+        # loop through the number of the needed Pizza Shops and get their coordinates
+        # work on the initial input list; start indexing at 1 to avoid using extra space
+        for i in range(1, m+1):
+            pizza_details = input_lines[i].split(' ')
+            x, y, r = int(pizza_details[0]), int(pizza_details[1]), int(pizza_details[2])
 
-        # create a new block with info from one Pizza Shop
-        new_pizza_block = PizzaBlock(n, x, y, r)
-        # add the new Pizza Shop Map onto the exisitng city map
-        full_city_map += new_pizza_block.fill_map()
+            # create a new block with info from one Pizza Shop
+            new_pizza_block = PizzaBlock(n, x, y, r)
+            a = new_pizza_block.fill_map()
+            # add the new Pizza Shop Map onto the exisitng city map
+            full_city_map += new_pizza_block.fill_map()
 
     max_block = int(np.max(full_city_map))
     print(max_block)

@@ -1,36 +1,70 @@
-The problem can be generalised into calculating a Manhattan Distance from a chosen point (Pizza Shop) to other points on the map, with an addition of a distance condition - only points within a certain distance are marked.
+The problem can be generalised into calculating a Manhattan Distance (MD) from a chosen point (Pizza Shop) to other points on the map (2d array), with an addition of a distance condition - only points within a certain distance are marked.
 
-Basic flow of the solution:
+Problem Approach:
 
-    1) Get the input from stdin and parse it into usable variables
-    2) Create a city map as a np.array filled with all 0's to hold the final solution
-    3) For every Pizzeria, create a separate grid in the dimensions of the city (n)
-    4) Loop through every cell in the city map
-        4a) Compute Manhattan Distance from that cell to the Pizzeria coordinates
-        4b) If the comnputed distance is smaller or equal to given r, then mark that cell with number int(1)
-    5) Add the newly created Pizza Block onto the city map - this assures that if one cell is reachable from multiple Pizza Shops, then the value of it will be incremented
-    6) Return the maximum of the city map array as a final result.
+    I have started by reading the specifications to the problem twice in order to make sure I understand the inputs and the outputs correctly. Then, I have gone through a small test case by hand, to decide on the flow of the solution - by doing that, I have understood the underlying
+    question of the problem, and was able to move on to defining specific parts of the solution that have to be implemented (stdin reading, input parsing, calculating the MD, and aggregating data about multiple pizzerias into the final solution). During the implementation, I have also 
+    added additional print statements to monitor the state of each of the maps and how the distance was marked on them, to assure no mistakes. I have also 
+
+Run Instructions:
+
+    In order to run the program enter:
+
+        python solution.py < input.txt
+
+    into the command line ('python' can be replaced with the corresponding Python invocation on the system, i.e. python3).
+    The program outputs a single integer, which indicated the maximum number of different Pizzerias delivering to that block.
+    The coordinates of that block are not printed, as only the max number was asked for.
+
+Flow of the solution:
+
+    1) Get input from a .txt file and parse it into specific variables (n - city dimensions, m - # of pizzerias, [x, y, r] - pizzeria details)
+    2) Create the CityMap - a 2d numpy array filled with 0's (np.zeros((n, n))) - this array will be used to aggregate each new Pizza Shop added
+    3) For every instance of pizzeria details create a new PizzaBlock object, with its coordinates (x, y), delivery distance r, and a copy of the city map
+        3a) Loop through every cell in the PizzaBlock map and compute the Manhattan Distance from it to the pizzeria coordinates
+        3b) If the MD is within the delivery range for that pizzeria (MD <= r), then mark it as 1 (int)
+        3c) Additional - rotate the city map by 90 degrees to account for different indexing in the exercise (the function is only neccessary if one wants to have a visual output which has the same orientation as the map in the exercise, 
+            for now it is commented out as it does not influence the result)
+        3d) Add the created map for one pizzeria onto the CityMap - with every new PizzaBlock added, the cells will be incremented accordingly to the number of places delivering there.
+    4) Return the maximum number present in the CityMap array.
 
 
 Design Decisions:
 
-    1. Maps (both the final city map and the separate Pizzerias maps) are implemented using numpy arrays - this provides some aid in array-wise operations, such as array addition (where elements in one array are added to elements on corresponding indices in another array),
-    and array flipping (numpy array can be flipped upside-down using one command).
+    1. Using numpy arrays for map implementations - numpy arrays provide more utility than standard Python ones, such as quick definition of a 0's 2d array (np.zeros((dim dim))),
+       flipping a 2d array upside-down by reversig the order of rows (np.flipud(arr)), and returning a maximum value from a 2d array without nested loops (np.max(arr)).
 
-    2. Reachability map for every Pizzeria is created as a separate object for the ease of manipulation. The PizzaBlock object translates the city coordinates ([1, 1] in the bottom-left corner) into Python coordinates ([0, 0] in the top-left corner).
-    This is achieved by firstly decrementing given coordinates by 1 - then, everything that is plugged onto the map behaves like [1,1] is in the top-left corner. All computations are done on this version of the map, and then finally the map is 'flipped upside-down'.
-    Meaning, the order of rows in the 2d array is reversed, and a city map wit [1, 1] in the bottom-left corner is achieved.
+    2. Coordinate translating - exercise coordinates are given in a way that assumes that indices start at 1, and that the origin of the map is in the point [1, 1] located in the bottom left corner (diagram a). To assure correct indexing when using Python arrays,
+       the exercise coordinates [x, y] are decremented by 1 to gey [x-1, y-1] - after this operation, exercise coordinates can be plugged onto the Python-indexed array (the 2d array is rotated by 90 degrees in relation to the exercise map, but it does not influence the result).
+
+    3. Reachability map for every Pizzeria is created as a separate object for the ease of manipulation. The PizzaBlock object translates the city coordinates into Python ones, computes the MD for each cell on the map, and marks a cell with int(1) if MD <= r. 
+
+    4. Coordinate validation - before filling in the map for a PizzaBlock, the [x,y] coordinates are checked, and if either of them is out of the city bounds, the PizzaBlock is not filled (a grid filled with just 0's is returned). 
+       This approach assumes that if the pizzeria's coordinates are not valid, then it mean it is out of the city and is simply not visible. Additionally, if the number if pizzerias that is passed to the program is equal to 0, then the solution does not run 
+       and the maximum of a 0-filled map is returned as a final answer (it is 0).
 
 
+Spatial and Computational Complexity:
 
-Complexity:
+    n - city dimension
+    m - number of pizzerias
 
-The solution to the exercise is both spatially and computationally expensive.
+    Computationally - for each Pizza Shop the MD is computed in each cell of the 2d nxn array
+        > m * (n^2) => O(N^2) 
+    
+    Spatially - for each Pizza Shop the PizzaBlock nxn 2d map is created and saved
+        > m * (n^2) => O(n^2)
 
-M - number of Pizza Shops
-N - side dimension of the city
+    It might be assumed that in some worse case scenarios, the number of pizzerias m can be close to the map dimensions n (as both these numbers come from the same range [1, 10000])
 
-Computationally -> M x (N^2) -> O(N^2) (computing Manhatthan Distance for all possible points in the )
-Spatially - > M x (N^2) -> O(N^2)
+Possible Improvements:
 
-python main.py < input.txt works in GitBash
+    1. In order to make the program more detailed, instead of outputting just the maximum number of possible Pizzerias delivering to one block, coordinates of that block can be outputted. 
+       To make sure the coordinates are in line with the map in the exercise, line 29 of the solution.py needs to be uncommented (correct map orientation), and additional code resturning the [x,y] coordinate pair must be added. 
+
+    2. To mitigate the possibility of the program not running due to the machine not having numpy installed, the script could be packaged into an .exe file, which is then executable by any system.
+
+    3. To decrease the spatial complexity, having a separate map for every PizzaBlock could be abandoned, and instead of that there could be just one CityMap onto which each Pizza Shop reachability score can be added in place.
+
+    4. To possibly improve the computational complexity given more time, one might try to generate the points within the delivery range of each pizzeria - given the range r, 4 corner points of a rectangle can be calculated, 
+       and then the points that lie inside that shape can be marked with 1.
