@@ -1,5 +1,28 @@
 The problem can be generalised into calculating a Manhattan Distance from a chosen point (Pizza Shop) to other points on the map, with an addition of a distance condition - only points within a certain distance are marked.
 
+Basic flow of the solution:
+
+    1) Get the input from stdin and parse it into usable variables
+    2) Create a city map as a np.array filled with all 0's to hold the final solution
+    3) For every Pizzeria, create a separate grid in the dimensions of the city (n)
+    4) Loop through every cell in the city map
+        4a) Compute Manhattan Distance from that cell to the Pizzeria coordinates
+        4b) If the comnputed distance is smaller or equal to given r, then mark that cell with number int(1)
+    5) Add the newly created Pizza Block onto the city map - this assures that if one cell is reachable from multiple Pizza Shops, then the value of it will be incremented
+    6) Return the maximum of the city map array as a final result.
+
+
+Design Decisions:
+
+    1. Maps (both the final city map and the separate Pizzerias maps) are implemented using numpy arrays - this provides some aid in array-wise operations, such as array addition (where elements in one array are added to elements on corresponding indices in another array),
+    and array flipping (numpy array can be flipped upside-down using one command).
+
+    2. Reachability map for every Pizzeria is created as a separate object for the ease of manipulation. The PizzaBlock object translates the city coordinates ([1, 1] in the bottom-left corner) into Python coordinates ([0, 0] in the top-left corner).
+    This is achieved by firstly decrementing given coordinates by 1 - then, everything that is plugged onto the map behaves like [1,1] is in the top-left corner. All computations are done on this version of the map, and then finally the map is 'flipped upside-down'.
+    Meaning, the order of rows in the 2d array is reversed, and a city map wit [1, 1] in the bottom-left corner is achieved.
+
+
+
 Complexity:
 
 The solution to the exercise is both spatially and computationally expensive.
