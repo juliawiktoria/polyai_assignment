@@ -1,10 +1,20 @@
 The problem can be generalised into calculating a Manhattan Distance (MD) from a chosen point (Pizza Shop) to other points on the map (2d array), with an addition of a distance condition - only points within a certain distance are marked.
 
+Manhattan Distance between 2 points in a grid:
+
+    Given A = [x_0, y_0] and B = [x_1, y_1], the MD between those points can be computed by:
+
+        MD(A, B) = abs(x_0 - x_1) + abs(y_0 - y_1),
+
+    where abs() denotes the absolute value.
+
 Problem Approach:
 
     I have started by reading the specifications to the problem twice in order to make sure I understand the inputs and the outputs correctly. Then, I have gone through a small test case by hand, to decide on the flow of the solution - by doing that, I have understood the underlying
     question of the problem, and was able to move on to defining specific parts of the solution that have to be implemented (stdin reading, input parsing, calculating the MD, and aggregating data about multiple pizzerias into the final solution). During the implementation, I have also 
-    added additional print statements to monitor the state of each of the maps and how the distance was marked on them, to assure no mistakes. I have also 
+    added additional print statements to monitor the state of each of the maps and how the distance was marked on them, to assure no mistakes. I have also made sure to go over some edge cases and possible out-of-bounds cases (mostly in the input variations), so that the program is still 
+    usable even if they are entered as input (i.e. no pizzerias). When going through my solution I have also tried coming up with possible improvements to the code and the logic, and tested each idea to assess its reliability.
+    When the implementation was finished, I have taken some time to refactor the code into more readable version that can be passed onto anyone without any readability issues - I have added descriptive variable, function, and class names, as well as comments.
 
 Run Instructions:
 
@@ -55,7 +65,6 @@ Spatial and Computational Complexity:
     Spatially - for each Pizza Shop the PizzaBlock nxn 2d map is created and saved
         > m * (n^2) => O(n^2)
 
-    It might be assumed that in some worse case scenarios, the number of pizzerias m can be close to the map dimensions n (as both these numbers come from the same range [1, 10000])
 
 Possible Improvements:
 
@@ -67,4 +76,5 @@ Possible Improvements:
     3. To decrease the spatial complexity, having a separate map for every PizzaBlock could be abandoned, and instead of that there could be just one CityMap onto which each Pizza Shop reachability score can be added in place.
 
     4. To possibly improve the computational complexity given more time, one might try to generate the points within the delivery range of each pizzeria - given the range r, 4 corner points of a rectangle can be calculated, 
-       and then the points that lie inside that shape can be marked with 1.
+       and then the points that lie inside that shape can be marked with 1. However, the most straight-forward way of checking whether given point is inside a polygon also requeires a solution that iterates over all possible points, so I have decided
+       to stick to the intial solution which uses the MD.
