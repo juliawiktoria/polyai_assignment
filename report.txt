@@ -23,6 +23,7 @@ Run Instructions:
         python solution.py < input.txt
 
     into the command line ('python' can be replaced with the corresponding Python invocation on the system, i.e. python3).
+    The 'input.txt' file contains lines of input described in the exercise text.
     The program outputs a single integer, which indicated the maximum number of different Pizzerias delivering to that block.
     The coordinates of that block are not printed, as only the max number was asked for.
 
@@ -78,3 +79,6 @@ Possible Improvements:
     4. To possibly improve the computational complexity given more time, one might try to generate the points within the delivery range of each pizzeria - given the range r, 4 corner points of a rectangle can be calculated, 
        and then the points that lie inside that shape can be marked with 1. However, the most straight-forward way of checking whether given point is inside a polygon also requeires a solution that iterates over all possible points, so I have decided
        to stick to the intial solution which uses the MD.
+
+    5. Different ways of reading input - for now the program only accepts one of the input ways described in the exercise text (python3 solution.py < input.txt), as it was the quickest to implement and I have decided to put more emphasis onto the logic of
+       the exercise. Additional logic for reading input can be added, so that the values can be passed into the script multiple ways.
